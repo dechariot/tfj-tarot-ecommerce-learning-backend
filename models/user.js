@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
+// The newest uuid can't import by this way
+// This is using the old version
 const { v1: uuidv1 } = require("uuid");
+
 
 const userSchema = new mongoose.Schema(
   {
