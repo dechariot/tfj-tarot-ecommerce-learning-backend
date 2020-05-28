@@ -15,14 +15,10 @@ exports.productById = (req, res, next, id) => {
   });
 };
 
-
 exports.read = (req, res) => {
-  req.product.photo = undefined
-  return res.json(req.product)
+  req.product.photo = undefined;
+  return res.json(req.product);
 };
-
-
-
 
 const Product = require("../models/product");
 
@@ -85,18 +81,79 @@ exports.create = (req, res) => {
   });
 };
 
-
 exports.remove = (req, res) => {
-  let product = req.product 
-  product.remove((err,deletedProducts) => {
-    if(err) {
+  let product = req.product;
+  product.remove((err, deletedProducts) => {
+    if (err) {
       return res.status(400).json({
-        error: errorHandler(err)
-      })
+        error: errorHandler(err),
+      });
     }
     res.json({
       deletedProducts,
-      message: "Product deleted successfully"
-    })
-  })
-}
+      message: "Product deleted successfully",
+    });
+  });
+};
+
+//UPDATE PRODUCT
+exports.update = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      return res.status(400).json({
+        error: "Image could not be uploaded",
+      });
+    }
+
+    //check for all fields
+    const {
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      producer,
+      shipping,
+    } = fields;
+
+    if (
+      !name ||
+      !description ||
+      !price ||
+      !category ||
+      !quantity ||
+      !producer ||
+      !shipping
+    ) {
+      return res.status(400).json({
+        error: "All fields are required",
+      });
+    }
+
+    let product = req.product;
+    product = _.extend(product, fields);
+    console.log("Product updated successfully");
+
+    // 1kb = 1000 bytes
+    // 1mb  = 1000000 bytes
+    if (files.photo) {
+      // console.log("FILE PHOTO:", files.photo);
+      if (files.photo.size > 1000000) {
+        return res.status(400).json({
+          error: "Image should be smaller than 1mb in size",
+        });
+      }
+
+      product.photo.data = fs.readFileSync(files.photo.path);
+      product.photo.contentType = files.photo.type;
+    }
+    product.save((err, result) => {
+      if (err) {
+        return res.status(400).json({ error: errorHandler(error) });
+      }
+      res.json(result);
+    });
+  });
+};
