@@ -2,6 +2,28 @@ const formidable = require("formidable");
 const _ = require("lodash");
 const fs = require("fs");
 const { errorHandler } = require("../helpers/dbErrorHandler");
+
+exports.productById = (req, res, next, id) => {
+  Product.findById(id).exec((err, product) => {
+    if (err || !product) {
+      return res.status(400).json({
+        error: "Product is not found",
+      });
+    }
+    req.product = product;
+    next();
+  });
+};
+
+
+exports.read = (req, res) => {
+  req.product.photo = undefined
+  return res.json(req.product)
+};
+
+
+
+
 const Product = require("../models/product");
 
 exports.create = (req, res) => {
@@ -37,7 +59,7 @@ exports.create = (req, res) => {
       return res.status(400).json({
         error: "All fields are required",
       });
-    };
+    }
 
     let product = new Product(fields);
 
