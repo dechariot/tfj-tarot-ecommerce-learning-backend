@@ -160,15 +160,15 @@ exports.update = (req, res) => {
 
 // **
 // * sell / arrival
-// * by sell = /product?sortBy=sold&order=des&limit=4
-// * by arrival = /product?sortBy=createAt&order=des&limit=4
+// * by sell = /products?sortBy=sold&order=desc&limit=4
+// * by arrival = /products?sortBy=createAt&order=desc&limit=4
 // * if no params are sent, hen all products are returned
 // *
 
 exports.list = (req, res) => {
   let order = req.query.order ? req.query.order : "asc";
-  let sortBy = req.query.sortBy ? req.query.order : "_id";
-  let limit = req.query.limit ? req.query.order : 6;
+  let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
   Product.find()
     .select("-photo")
