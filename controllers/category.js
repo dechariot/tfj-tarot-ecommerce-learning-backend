@@ -5,7 +5,7 @@ exports.categoryById = (req, res, next, id) => {
   Category.findById(id).exec((err, category) => {
     if (err || !category) {
       return res.status(400).json({
-        error: "Category does not exist"
+        error: "Category does not exist",
       });
     }
     req.category = category;
@@ -26,5 +26,21 @@ exports.create = (req, res) => {
 };
 
 exports.read = (req, res) => {
-  return res.json(req.category)
+  return res.json(req.category);
 };
+
+exports.remove = (req, res) => {
+  let category = req.category;
+  category.remove((err,deletedCategory) => {
+    if(err) {
+      res.status(400).json({
+        error: errorHandler(err)
+      })
+    }
+    res.json({
+      deletedCategory,
+      message: "Category deleted successfully"
+    })
+  })
+};
+
