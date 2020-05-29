@@ -8,11 +8,12 @@ const {
   productById,
   read,
   remove,
-  update
+  update,
+  list,
 } = require("../controllers/product");
 
 router.get("/product/:productId", read);
-router.post("/product/create/:userId", isAdmin, isAuth, requireSignin, create);
+router.post("/product/create/:userId", requireSignin, isAuth, isAdmin, create);
 router.delete(
   "/product/:productId/:userId",
   isAdmin,
@@ -27,6 +28,8 @@ router.put(
   isAuth,
   update
 );
+
+router.get("/products", list);
 
 router.param("userId", userById);
 router.param("productId", productById);

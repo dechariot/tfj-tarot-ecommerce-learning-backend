@@ -39,7 +39,7 @@ exports.update = (req, res) => {
       });
     }
     res.json(data);
-    console.log("Category updated successfully")
+    console.log("Category updated successfully");
   });
 };
 
@@ -57,15 +57,16 @@ exports.remove = (req, res) => {
     });
   });
 };
-  
+
 exports.list = (req, res) => {
-  Category.find().exec((err,data)=> {
-    if(err) {
+  Category.find().exec((err, data) => {
+    if (err) {
       return res.status(400).json({
         error: errorHandler(err),
-      })
+      });
     }
     res.json(data);
-    console.log("Category list exported successfully")
-  })
+    console.log("Category list exported successfully");
+  });
 };
+ 
