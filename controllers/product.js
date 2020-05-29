@@ -162,7 +162,7 @@ exports.update = (req, res) => {
 // * sell / arrival
 // * by sell = /products?sortBy=sold&order=desc&limit=4
 // * by arrival = /products?sortBy=createAt&order=desc&limit=4
-// * if no params are sent, hen all products are returned
+// * if no params are sent, then all products are returned
 // *
 
 exports.list = (req, res) => {
@@ -181,6 +181,26 @@ exports.list = (req, res) => {
           error: "Product not found",
         });
       }
-      res.send(products);
+      res.json(products);
     });
 };
+
+// it will find the products base on the req product category
+// other products that have same category will return
+// the product id will not return
+
+exports.listRelatedProducts = (req, res) => {
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+
+  Product.find({_id: {$ne:req.product}, category: req.product.category})
+  .limit(limit)
+  .populate("category","_id name")
+  .exec((err,products)=>{
+    if(err) {
+      return res.status(400).json({
+        error: "Product not found"
+      })
+    }
+    res.json(products);
+  })
+}; 
