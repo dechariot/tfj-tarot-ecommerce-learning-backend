@@ -13,6 +13,7 @@ const {
   listRelatedProducts,
   listCategories,
   listBySearch,
+  productPhoto,
 } = require("../controllers/product");
 
 router.get("/product/:productId", read);
@@ -35,6 +36,7 @@ router.get("/products/related/:productId", listRelatedProducts);
 router.get("/products/categories", listCategories);
 router.post("/products/by/search", listBySearch);
 router.get("/products", list);
+router.get("/product/photo/:productId", productPhoto);
 
 router.param("userId", userById);
 router.param("productId", productById);
