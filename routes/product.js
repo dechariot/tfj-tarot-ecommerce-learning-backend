@@ -12,6 +12,7 @@ const {
   list,
   listRelatedProducts,
   listCategories,
+  listBySearch,
 } = require("../controllers/product");
 
 router.get("/product/:productId", read);
@@ -32,7 +33,7 @@ router.put(
 );
 router.get("/products/related/:productId", listRelatedProducts);
 router.get("/products/categories", listCategories);
-
+router.post("/products/by/search", listBySearch);
 router.get("/products", list);
 
 router.param("userId", userById);
