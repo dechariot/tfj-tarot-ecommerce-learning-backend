@@ -14,6 +14,7 @@ const {
   listCategories,
   listBySearch,
   productPhoto,
+  listSearch
 } = require("../controllers/product");
 
 router.get("/product/:productId", read);
@@ -32,10 +33,11 @@ router.put(
   isAuth,
   update
 );
+router.get("/products", list);
+router.get("/products/search", listSearch);
 router.get("/products/related/:productId", listRelatedProducts);
 router.get("/products/categories", listCategories);
 router.post("/products/by/search", listBySearch);
-router.get("/products", list);
 router.get("/product/photo/:productId", productPhoto);
 
 router.param("userId", userById);
