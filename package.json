@@ -1,5 +1,5 @@
 {
-  "name": "shop-backende",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -24,6 +24,7 @@
     "mongoose": "^5.9.16",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
+    "sendgrid": "^5.2.3",
     "uuid": "^8.1.0"
   }
 }
